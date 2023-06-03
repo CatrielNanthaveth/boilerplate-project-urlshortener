@@ -66,7 +66,7 @@ app.post("/api/shorturl", (req, res) => {
 });
 
 app.get("/api/shorturl/:id", (req, res) => {
-  console.log(req.params)
+  console.log(req);
   try {
     urlModel.find({ id: req.params.id} ).exec().then(url => {
       res.redirect(url[0]["url"]);
