@@ -67,9 +67,15 @@ app.post("/api/shorturl", (req, res) => {
 
 app.get("/api/shorturl/:id", (req, res) => {
   console.log(req.params)
-  urlModel.find({ id: req.params.id} ).exec().then(url => {
-    res.redirect(url[0]["url"]);
-  });
+  try {
+    urlModel.find({ id: req.params.id} ).exec().then(url => {
+      res.redirect(url[0]["url"]);
+    });
+  } catch (error) {
+    res.json({
+      error: 'Invalid URL'
+    })
+  }
 });
 
 app.listen(port, function() {
