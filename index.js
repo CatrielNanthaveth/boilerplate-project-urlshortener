@@ -50,12 +50,12 @@ app.post("/api/shorturl", (req, res) => {
       urlModel
         .find().exec().then(data => {
           new urlModel({
-            id: data.length + 1,
+            id: data.length,
             url: req.body.url
           }).save().then(() => {
             res.json({
               original_url: req.body.url,
-              short_url: data.length + 1
+              short_url: data.length
             });
           }).catch(err => {
             res.json(err);
