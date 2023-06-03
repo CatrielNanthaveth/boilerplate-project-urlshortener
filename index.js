@@ -67,14 +67,21 @@ app.post("/api/shorturl", (req, res) => {
 
 app.get("/api/shorturl/:id", (req, res) => {
   console.log(req);
+
+  if (!parseInt(req.params.id, 10)) {
+    // The short URL identifier is not a number
+    res.json({ "error": "Wrong format" });
+    return;
+  }
+
   try {
     urlModel.find({ id: req.params.id} ).exec().then(url => {
       res.redirect(url[0]["url"]);
     });
   } catch (error) {
-    res.json({
+    return res.json({
       error: 'Invalid URL'
-    })
+    });
   }
 });
 
