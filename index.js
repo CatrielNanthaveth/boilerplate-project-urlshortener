@@ -75,8 +75,14 @@ app.get("/api/shorturl/:id", (req, res) => {
   }
 
   try {
-    urlModel.find({ id: req.params.id} ).exec().then(url => {
-      res.redirect(url[0]["url"]);
+    urlModel.findOne({ "id": req.params.id }, (err, data) => {
+      if (err) return;
+      if (data){
+        // redirect to the stored page
+        res.redirect(data.url);
+      } else {
+        res.json({ "error": "No short URL found for the given input" });
+      }
     });
   } catch (error) {
     return res.json({
